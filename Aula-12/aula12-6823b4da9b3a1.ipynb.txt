@@ -1,0 +1,90 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "IE9gkGno-rut"
+      },
+      "outputs": [],
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "from sklearn.linear_model import LinearRegression\n",
+        "# Dados\n",
+        "dados = {'Posicao':[ ] ,\n",
+        "              'Gols': [ ]}\n",
+        "\n",
+        "# Criar um DataFrame\n",
+        "df = pd.DataFrame(dados)\n",
+        "\n",
+        "# Calculando a correlaÃ§Ã£o\n",
+        "corr= df.corr().loc['Posicao', 'Gols']\n",
+        "print(f\"CorrelaÃ§Ã£o: {corr}\")\n",
+        "\n",
+        "# Criar um grÃ¡fico de dispersÃ£o para visualizar os dados (afinal, Ã© sempre bom visualizar antes de tudo!)\n",
+        "plt.scatter(df['Posicao'], df['Gols'], color='blue')\n",
+        "plt.title('GrÃ¡fico de DispersÃ£o: PosiÃ§Ã£o vs. Gols')\n",
+        "plt.xlabel('PosiÃ§Ã£o')\n",
+        "plt.ylabel('Gols')\n",
+        "plt.show()\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from sklearn.linear_model import LinearRegression\n",
+        "# CriaÃ§Ã£o do modelo e treinamento (fit indica que o treinamento deve ser executado)\n",
+        "\n",
+        "X = df[['Posicao']].values  # A variÃ¡vel X precisa ser 2D\n",
+        "y = df['Gols'].values\n",
+        "\n",
+        "modelo = LinearRegression() #criamos o objeto, modelo de regressao\n",
+        "\n",
+        "# Treinamento do modelo\n",
+        "#Aqui o modelo aprende a melhor linha reta (ou funÃ§Ã£o linear) que aproxima a relaÃ§Ã£o entre X (posiÃ§Ã£o) e y (gols).\n",
+        "modelo.fit(X, y) #\n",
+        "\n",
+        "# Coeficientes do modelo, conseguimos extrair diretamento do modelo criado\n",
+        "coeficiente = modelo.coef_[0]\n",
+        "intercepto = modelo.intercept_\n",
+        "\n",
+        "print(f\"Coeficiente (inclinaÃ§Ã£o): {coeficiente}\")\n",
+        "print(f\"Intercepto: {intercepto}\")\n"
+      ],
+      "metadata": {
+        "id": "u_WOm1Em_cID"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "## GeraÃ§Ã£o do grÃ¡fico com os pontos reais e as previsÃµes\n",
+        "plt.scatter(X, y)\n",
+        "plt.plot(X, modelo.predict(X), color = 'red')\n"
+      ],
+      "metadata": {
+        "id": "8Uy2JgyOAxV7"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
